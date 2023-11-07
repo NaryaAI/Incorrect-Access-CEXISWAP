@@ -56,8 +56,8 @@ contract Exploiter {
         );
     }
 
-    function getUSDTBalance() public returns(uint256){
-        return USDT.balanceOf(address(this));
+    function getUSDTBalance(address _addr) public returns(uint256){
+        return USDT.balanceOf(address(_addr));
     }
 
     // function 0x1de24bbf
@@ -105,8 +105,8 @@ contract attacker {
         );
     }
 
-    function getUSDTBalance() public returns(uint256){
-        return USDT.balanceOf(address(this));
+    function getUSDTBalance(address _addr) public returns(uint256){
+        return USDT.balanceOf(address(_addr));
     }
 
     function upgradeToAndCall(address _addr) external {
